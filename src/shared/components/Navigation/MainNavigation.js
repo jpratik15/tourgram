@@ -4,35 +4,33 @@ import { Link } from "react-router-dom";
 import MainHeader from "./MainHeader";
 import NavLink from "./NavLinks";
 import SideDrawer from "./SideDrawer";
-import BackDrop from "../../components/UIElements/BackDrop"
+import BackDrop from "../../components/UIElements/BackDrop";
 
 import "./MainNavigation.css";
 
 const MainNavigation = (props) => {
   let [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-  const openDrawer = () => {
+  const openDrawerHandler = () => {
     setDrawerIsOpen(true);
-  }
+  };
 
-  const closeDrawer = () => {
-    setDrawerIsOpen(false); 
-  }
+  const closeDrawerHandler = () => {
+    setDrawerIsOpen(false);
+  };
 
   return (
     <React.Fragment>
-      
-      {drawerIsOpen ? <BackDrop onClick={closeDrawer}/> :null }
+      {drawerIsOpen ? <BackDrop onClick={closeDrawerHandler} /> : null}
 
-      {drawerIsOpen ? (
-        <SideDrawer>
-          <nav className="main-navigation__drawer-nav">
-            <NavLink />
-          </nav>
-        </SideDrawer>
-      ) : null}
+      <SideDrawer show={drawerIsOpen} onClick={closeDrawerHandler}>
+        <nav className="main-navigation__drawer-nav">
+          <NavLink />
+        </nav>
+      </SideDrawer>
+
       <MainHeader>
-        <button className="main-navigation__menu-btn" onClick={openDrawer}>
+        <button className="main-navigation__menu-btn" onClick={openDrawerHandler}>
           <span />
           <span />
           <span />
