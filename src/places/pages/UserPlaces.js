@@ -11,10 +11,7 @@ const DUMMY_PLACE = [
         description:"One of 7 wonders",
         imageURL: "https://cdn.britannica.com/86/170586-050-AB7FEFAE/Taj-Mahal-Agra-India.jpg",
         address: "Agra",
-        location :{
-            lat:27.173891,
-            long: 78.042068
-        },
+        location : [78.042068,27.173891],
         creator:"u1"
         
     },
@@ -24,10 +21,8 @@ const DUMMY_PLACE = [
         description:"One of 7 wonders",
         imageURL: "https://cdn.britannica.com/86/170586-050-AB7FEFAE/Taj-Mahal-Agra-India.jpg",
         address: "Agra",
-        location :{
-            lat:27.173891,
-            long: 78.042068
-        },
+        location : [78.042068,27.173891],
+        // location :[-74.5, 40],
         creator:"u2"
     }
 ]
