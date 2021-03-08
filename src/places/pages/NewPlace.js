@@ -7,7 +7,7 @@ import "./NewPlace.css"
 const NewPlace = () => {
     return(
         <form className="place-form">
-            <Input element="input" type="text" label="title"/>
+            <Input element="input" type="text" label="title" validator={[]} errorText="Please Enter A Valid Title"/>
         </form>
     )
 }
