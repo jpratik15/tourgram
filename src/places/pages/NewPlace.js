@@ -11,18 +11,18 @@ const formReducer = (state,action) => {
     case "INPUT_CHANGE" :
       let formIsValid = true;
 
-      for(const inputId in state.input){
+      for(const inputId in state.inputs){
         if(inputId ===action.inputId){
           formIsValid = formIsValid && action.isValid
         }else {
-          formIsValid = formIsValid && state.input[inputId].isValid;
+          formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
       }
 
       return {
         ...state,
-        input : {
-          ...state.input,
+        inputs : {
+          ...state.inputs,
           [action.inputId] : {value : action.value, isValid : action.isValid}
         },
         isValid : formIsValid
@@ -33,9 +33,10 @@ const formReducer = (state,action) => {
   }
 }
 
+
 const NewPlace = () => {
   const [formState,dispatch] = useReducer(formReducer,{
-    input : {
+    inputs : {
       title : {
         value:"",
         isValid:false
@@ -50,9 +51,13 @@ const NewPlace = () => {
   const inputHandler = useCallback((id, value, isValid) => {
     dispatch({type:"INPUT_CHANGE" , inputId : id ,value : value , isValid : isValid})
   },[]);
-
+  
+  const placeSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(formState.inputs);
+  }
   return (
-    <form className="place-form">
+    <form className="place-form" onSubmit={placeSubmitHandler}>
       <Input
         id="title"
         element="input"
@@ -71,7 +76,16 @@ const NewPlace = () => {
         errorText="Please Enter Atleast 5 Characters"
         onInput = {inputHandler}
       />
-      {console.log(formState)}
+
+      <Input
+        id="address"
+        element="input"
+        label="Address"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid address"
+        onInput = {inputHandler}
+      />
+
       <Button type="submit" disabled={!formState.isValid}>Add Place</Button>
     </form>
   );
