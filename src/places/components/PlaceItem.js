@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
-import Map from  "../../shared/components/UIElements/Map"
+import Map from "../../shared/components/UIElements/Map";
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
@@ -16,6 +16,23 @@ const PlaceItem = (props) => {
   const closeMapHandler = () => {
     setShowMap(false);
   };
+
+
+  const [deleteModal,setDeleteModal] = useState(false);
+  
+  const showDeleteModal = () => {
+    setDeleteModal(true);
+  }
+
+  const hideDeleteModal = () => {
+    setDeleteModal(false);
+  }
+
+  const confirmDeleteHandler = () => {
+    setDeleteModal(false);
+    console.log("Deleting..!!");
+  }
+
 
   return (
     <React.Fragment>
@@ -31,6 +48,22 @@ const PlaceItem = (props) => {
           <Map center={props.coordinates} zoom={16} />
         </div>
       </Modal>
+
+      <Modal
+      show={deleteModal}
+      onCancel = {hideDeleteModal}
+      header="Are you Sure?"
+      footerClass="place-item__modal-actions"
+      footer = {
+        <React.Fragment>
+          <Button inverse onClick={hideDeleteModal}>CANCEL</Button>
+          <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
+        </React.Fragment>
+      }
+      >
+        <p>This action cannot be reversed!</p>
+      </Modal>
+
       <li className="place-item">
         <Card className="place-item__content">
           <div className="place-item__image">
@@ -46,7 +79,7 @@ const PlaceItem = (props) => {
               VIEW ON MAP
             </Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            <Button danger onClick={showDeleteModal}>DELETE</Button>
           </div>
         </Card>
       </li>
