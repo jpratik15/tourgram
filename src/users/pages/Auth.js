@@ -35,12 +35,12 @@ const Auth = () => {
   const switchModeHandler = () => {
     if (!isLoginMode) {
         setFormData( {
-            ...formState,
+            ...formState.inputs,
             name : undefined
         } , formState.inputs.email.isValid && formState.inputs.password.isValid)   
     } else {
         setFormData({
-            ...formState,
+            ...formState.inputs,
             name : {
                 value:"",
                 isValid : false
