@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
 import "./PlaceItem.css";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const PlaceItem = (props) => {
+  const auth = useContext(AuthContext);
   let [showMap, setShowMap] = useState(false);
 
   const openMapHandler = () => {
@@ -17,22 +19,20 @@ const PlaceItem = (props) => {
     setShowMap(false);
   };
 
+  const [deleteModal, setDeleteModal] = useState(false);
 
-  const [deleteModal,setDeleteModal] = useState(false);
-  
   const showDeleteModal = () => {
     setDeleteModal(true);
-  }
+  };
 
   const hideDeleteModal = () => {
     setDeleteModal(false);
-  }
+  };
 
   const confirmDeleteHandler = () => {
     setDeleteModal(false);
     console.log("Deleting..!!");
-  }
-
+  };
 
   return (
     <React.Fragment>
@@ -50,16 +50,20 @@ const PlaceItem = (props) => {
       </Modal>
 
       <Modal
-      show={deleteModal}
-      onCancel = {hideDeleteModal}
-      header="Are you Sure?"
-      footerClass="place-item__modal-actions"
-      footer = {
-        <React.Fragment>
-          <Button inverse onClick={hideDeleteModal}>CANCEL</Button>
-          <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
-        </React.Fragment>
-      }
+        show={deleteModal}
+        onCancel={hideDeleteModal}
+        header="Are you Sure?"
+        footerClass="place-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={hideDeleteModal}>
+              CANCEL
+            </Button>
+            <Button danger onClick={confirmDeleteHandler}>
+              DELETE
+            </Button>
+          </React.Fragment>
+        }
       >
         <p>This action cannot be reversed!</p>
       </Modal>
@@ -78,8 +82,14 @@ const PlaceItem = (props) => {
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger onClick={showDeleteModal}>DELETE</Button>
+            {auth.isLoggedIn && (
+              <Button to={`/places/${props.id}`}>EDIT</Button>
+            )}
+            {auth.isLoggedIn && (
+              <Button danger onClick={showDeleteModal}>
+                DELETE
+              </Button>
+            )}
           </div>
         </Card>
       </li>

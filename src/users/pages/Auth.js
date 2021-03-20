@@ -1,4 +1,4 @@
-import React, { isValidElement, useState } from "react";
+import React, { isValidElement, useState  , useContext} from "react";
 
 import { useForm } from "../../shared/hooks/form-hook";
 import Input from "../../shared/components/FormElements/Input";
@@ -9,6 +9,7 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import Card from "../../shared/components/UIElements/Card";
+import {AuthContext} from "../../shared/context/auth-context"
 
 import "./Auth.css";
 
@@ -26,9 +27,12 @@ const Auth = () => {
 
   const [formState, inputHandler,setFormData] = useForm(initialInput, false);
 
+  const auth = useContext(AuthContext);
+
   const authFormSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
+    auth.login();
   };
 
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -54,7 +58,7 @@ const Auth = () => {
     <Card className="authentication">
       <h2>Login Required!</h2>
       <hr />
-      <form onClick={authFormSubmitHandler}>
+      <form onSubmit={authFormSubmitHandler}>
         {!isLoginMode && (
           <Input
             id="name"
