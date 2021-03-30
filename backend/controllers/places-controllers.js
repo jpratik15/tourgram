@@ -1,6 +1,7 @@
 const { createElement } = require("react");
 const HttpError = require("../models/http-error")
 const { v4: uuidv4 } = require('uuid');
+const {validationResult}  = require("express-validator");
 
 let DUMMY_PLACES = [
     {
@@ -42,6 +43,12 @@ const getPlacesByUserId = (req,res,next)=>{
 
 
 const createPlace = (req,res,next) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return next( new HttpError("Invalid Input",422));
+    }
+
     const {title,description,coordinates,address,creator} = req.body;
     const newPlace = {
         id: uuidv4(),
@@ -58,6 +65,11 @@ const createPlace = (req,res,next) => {
 
 
 const updatePlaceById = (req,res,next) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return next( new HttpError("Invalid Input",422));
+    }
     const {title,description} = req.body;
     const placeId = req.params.pid;
 
@@ -73,6 +85,9 @@ const updatePlaceById = (req,res,next) => {
 
 const deletePlace  = (req,res,next) => {
     const placeId = req.params.pid;
+    if(!DUMMY_PLACES.find(p => p.id ===placeId)){
+        return next(new HttpError("Couldn't find the place",404));
+    }
     DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId);
     res.status(201).json({message : "Deleted Successfully"});
 
