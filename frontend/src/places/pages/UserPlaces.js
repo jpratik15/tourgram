@@ -1,36 +1,48 @@
-import React from "react"
-import { useParams } from 'react-router-dom'
-import UserItem from "../../users/components/UserItem"
-
-import PlaceList from "../../places/components/PlaceList"
-
-const DUMMY_PLACE = [
-    {
-        id:"p1",
-        title:"Empire State",
-        description:"One of 7 wonders",
-        imageURL: "https://cdn.britannica.com/86/170586-050-AB7FEFAE/Taj-Mahal-Agra-India.jpg",
-        address: "Agra",
-        location : [78.042068,27.173891],
-        creator:"u1"
-        
-    },
-    {
-        id:"p2",
-        title:"Empire State",
-        description:"One of 7 wonders",
-        imageURL: "https://cdn.britannica.com/86/170586-050-AB7FEFAE/Taj-Mahal-Agra-India.jpg",
-        address: "Agra",
-        location : [78.042068,27.173891],
-        // location :[-74.5, 40],
-        creator:"u2"
-    }
-]
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import UserItem from "../../users/components/UserItem";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import PlaceList from "../../places/components/PlaceList";
 
 const UserPlaces = (props) => {
-    const userId = useParams().userId;
-    const loadedPlaces = DUMMY_PLACE.filter(place => place.creator === userId);
-    return <PlaceList items={loadedPlaces}/>
-}
-export default UserPlaces
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+  const [loadedPlaces, setLoadedPlaces] = useState();
 
+  const userId = useParams().userId;
+
+  useEffect(() => {
+    const sendReq = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/places/user/${userId}`
+        );
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+
+        setLoadedPlaces(responseData.places);
+      } catch (error) {
+        setError(error.message);
+      }
+      setIsLoading(false);
+    };
+    sendReq();
+  }, []);
+
+  const errorHandler = () => {
+    setError(null);
+  };
+
+  return (
+    <React.Fragment>
+      <ErrorModal error={error} onClear={errorHandler} />
+      {isLoading && <div className="center"><LoadingSpinner /></div>}
+      {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces} />}
+    </React.Fragment>
+  );
+};
+export default UserPlaces;

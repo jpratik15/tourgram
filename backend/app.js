@@ -38,6 +38,7 @@ app.use((error,req,res,next)=>{
 
 moongoose.connect("mongodb+srv://Pratik:12345@cluster0.jxngd.mongodb.net/mern?retryWrites=true&w=majority").then(()=>{
     app.listen(5000);
+    console.log("Server Up");
 }).catch(err =>{
     console.log(err);
 })

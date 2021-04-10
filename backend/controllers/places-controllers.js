@@ -52,6 +52,7 @@ const createPlace = async (req,res,next) => {
     }
 
     const {title,description,address,creator} = req.body;
+    console.log(req.body);
 
     let coordinates;
     try {
@@ -65,8 +66,8 @@ const createPlace = async (req,res,next) => {
         description,
         address,
         location : coordinates,
-        image : "https://www.google.com/imgres?imgurl=https%3A%2F%2Fdummyimage.com%2Fvga&imgrefurl=https%3A%2F%2Fdummyimage.com%2F&tbnid=D93anxCopUBhqM&vet=12ahUKEwjgsYrUwNzvAhVdhEsFHfXYAkEQMygAegUIARDVAQ..i&docid=nu_bPhQtkB_A4M&w=640&h=480&q=dummy%20image&ved=2ahUKEwjgsYrUwNzvAhVdhEsFHfXYAkEQMygAegUIARDVAQ",
-        creator
+        image : "https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg",
+        creator 
     })
 
     let user ;

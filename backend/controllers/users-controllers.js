@@ -39,7 +39,7 @@ const signup = async (req, res, next)=> {
     const new_user = new User({
         name,
         email,
-        image : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FGoogle_Photos&psig=AOvVaw3iqaXZT_86nJm8PMIALwEH&ust=1617455700179000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJiYv5XS3-8CFQAAAAAdAAAAABAD",
+        image:"https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg",
         password,
         places : []
     })
@@ -51,7 +51,7 @@ const signup = async (req, res, next)=> {
         return next(error);
     }
 
-    res.status(201).json({user:new_user.toObject({getUsers:true})});
+    res.status(201).json({user:new_user.toObject({getters:true})});
 }
 
 const login = async (req,res,next)=> {
@@ -68,7 +68,7 @@ const login = async (req,res,next)=> {
         return next( new HttpError("Invalid Credentials",401));
     }
 
-    res.json({message : "Logged In"});
+    res.json({message : "Logged In",user : existingUser.toObject({getters:true })});
 
 }
 exports.getUsers = getUsers;
