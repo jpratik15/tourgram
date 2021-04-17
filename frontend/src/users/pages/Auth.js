@@ -12,6 +12,7 @@ import Card from "../../shared/components/UIElements/Card";
 import { AuthContext } from "../../shared/context/auth-context";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload"
 
 import "./Auth.css";
 
@@ -40,6 +41,8 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: undefined,
+          image : undefined
+
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -51,6 +54,10 @@ const Auth = () => {
             value: "",
             isValid: false,
           },
+          image : {
+            value : null,
+            isValid : false
+          }
         },
         false
       );
@@ -145,6 +152,7 @@ const Auth = () => {
             errorText="Please enter a valid email!!"
             onInput={inputHandler}
           />
+          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
 
           <Input
             id="password"
