@@ -3,7 +3,7 @@ const HttpError = require("../models/http-error")
 const { v4: uuidv4 } = require('uuid');
 const {validationResult}  = require("express-validator");
 const getCoordsForAddress = require('../util/location');
-
+const fs = require('fs');
 const Place = require('../models/place')
 const User = require('../models/users')
 
@@ -139,6 +139,7 @@ const updatePlaceById =async (req,res,next) => {
 const deletePlace  = async (req,res,next) => {
     const placeId = req.params.pid;
     let place;
+
     try {
         place = await Place.findById(placeId).populate('creator');
         // console.log(place);
@@ -150,6 +151,7 @@ const deletePlace  = async (req,res,next) => {
     if(!place){
         return next(new HttpError("Couldn't find the place",404));
     }
+    const imagePath = place.image;
     
     try {
         const sess = await mongoose.startSession();
@@ -164,6 +166,10 @@ const deletePlace  = async (req,res,next) => {
         const error = new HttpError("Couldnt Delete Place",500);
         return next(error);
     }
+
+    fs.unlink(imagePath,(err)=>{
+        console.log(err);
+    })
     res.status(201).json({message : "Deleted Successfully"});
 
     
