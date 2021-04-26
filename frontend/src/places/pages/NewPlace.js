@@ -54,6 +54,9 @@ const NewPlace = () => {
       setIsLoading(true);
       const response = await fetch("http://localhost:5000/api/places", {
         method: "POST",
+        headers: {
+          Authorization: "Bearer " + auth.token
+        },
         body : formData
       });
 

@@ -38,8 +38,11 @@ const PlaceItem = (props) => {
     try {
       setIsLoading(true);
       await fetch(`http://localhost:5000/api/places/${props.id}`,{
-        method: "DELETE"
-      })
+        method: "DELETE",
+        headers : {
+          Authorization: "Bearer " +auth.token 
+        }
+    })
       setIsLoading(false);
       props.onDelete(props.id);
     } catch (error) {

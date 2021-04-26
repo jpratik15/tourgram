@@ -19,6 +19,7 @@ const getUsers =async (req,res,next)=> {
 }
 
 const signup = async (req, res, next)=> {
+    // console.log(req);
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
@@ -38,12 +39,12 @@ const signup = async (req, res, next)=> {
     }
     let hashed ;
     try {
-        hashed = await bcrypt.hashed(password, 12 );
+        hashed = await bcrypt.hash(password, 12 );
     } catch (err) {
         const error = new HttpError("Could not creat a new user",500);
         return error;
     }
-
+    console.log(password,hashed);
     
     const new_user = new User({
         name,
@@ -63,12 +64,11 @@ const signup = async (req, res, next)=> {
     let token;
     try {
         token = jwt.sign({userId : new_user.id,email : new_user.email},"private_key",{expiresIn:'1h'});
-
     } catch (err) {
         const error = new HttpError("Signing Up Failed",500);
-        return next(error);
-        
+        return next(error)
     }
+
 
     res.status(201).json({userId : new_user.id,email : new_user.email,token:token});
 
