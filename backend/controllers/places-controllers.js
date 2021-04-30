@@ -10,7 +10,7 @@ const User = require('../models/users')
 
 
 const getPlaceByPlaceId = async (req,res,next)=>{
-    const placeId = req.params.pid;
+    const placeId = req.params.pid;``
     let place;
     try{
         place = await Place.findById(placeId);
@@ -121,6 +121,11 @@ const updatePlaceById =async (req,res,next) => {
         return next(error);
     }
     
+    if(place.creator.toString() !== req.userData.userId){
+        const error = new HttpError("Not allowed to edit this place",401);
+        return next(error);
+    }
+    
     place.title = title;
     place.description = description;
     
@@ -148,9 +153,17 @@ const deletePlace  = async (req,res,next) => {
         return next(error);
     }
     
+    
     if(!place){
         return next(new HttpError("Couldn't find the place",404));
     }
+    
+    if(place.creator.id !== req.userData.userId){
+        const error = new HttpError("Not allowed to edit this place",401);
+        return next(error);
+    }   
+    
+
     const imagePath = place.image;
     
     try {
