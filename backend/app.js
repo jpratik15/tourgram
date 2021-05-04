@@ -42,8 +42,8 @@ app.use((error,req,res,next)=>{
 })
 
 
-moongoose.connect("mongodb+srv://Pratik:12345@cluster0.jxngd.mongodb.net/mern?retryWrites=true&w=majority").then(()=>{
-    app.listen(5000);
+moongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jxngd.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`).then(()=>{
+    app.listen(process.env.PORT || 5000);
     console.log("Server Up");
 }).catch(err =>{
     console.log(err);

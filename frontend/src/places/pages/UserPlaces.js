@@ -17,7 +17,7 @@ const UserPlaces = (props) => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/api/places/user/${userId}`
+          `${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`
         );
         const responseData = await response.json();
         if (!response.ok) {

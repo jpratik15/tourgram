@@ -42,7 +42,7 @@ const UpdatePlace = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/api/places/${placeId}`
+          `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`
         );
         const responseData = await response.json();
         if (!response.ok) {
@@ -94,7 +94,7 @@ const UpdatePlace = () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://localhost:5000/api/places/${placeId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`,
         {
           method: "PATCH",
           headers: {

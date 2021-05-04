@@ -1,0 +1,9 @@
+{
+    "env":{
+        "DB_USER" : "Pratik",
+        "DB_PASSWORD" : "12345",
+        "DB_NAME" : "mern",
+        "MAP_API_KEY" : "pk.b6360426b57b6d5c2f21fd7147ebe850",
+        "JWT_KEY"  : "private_key"
+    }
+}

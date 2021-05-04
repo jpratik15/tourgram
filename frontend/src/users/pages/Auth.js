@@ -71,7 +71,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         setIsLoading(true);
-        const response = await fetch("http://localhost:5000/api/users/login", {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -102,7 +102,7 @@ const Auth = () => {
         formData.append("image",formState.inputs.image.value);
 
         setIsLoading(true);
-        const response = await fetch("http://localhost:5000/api/users/signup", {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
           method: "POST",
           body : formData
         });
